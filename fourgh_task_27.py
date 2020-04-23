@@ -1,54 +1,46 @@
 import os
-name_of_file = 'C:\\Users\\daria\\progy\\fourth_task\\data.txt'
+name_of_file = 'data.txt'
 total_number = 0
 
 def Sequence(filename):
     file = open(filename, 'r')
+    m = 0
+    f = 0
+    cur = 0
     try:
-        if (os.stat(filename).st_size == 0):
-            return -1
-    except OSError:
-        print("File does not exist")
-    temp_max = 0
-    for line in file:
-        length = len(line)
-        if (line == ''):
-            print("len is")
-        prev_integer = ''
-        index = 0
-        flag = 0
-        f = 0
-        while (flag != 1):
-            if (line[index] != ' '):
-                prev_integer += line[index]
-            if (line[index] == ' ') or (index == (length -1)):
-                flag += 1
-            index += 1
-        prev_integer = int(prev_integer)
-        integer = ''
-        for i in range(index,length):
-            if (line[i] != ' '):
-                integer += line[i]
-            if ((line[i] == ' ') or (i == (length - 1))):
-                integer = int(integer)
-                if (int(integer) == int(prev_integer)):
+        f=open(filename, "r")
+        for s in [s5 for s1 in f for s2 in s1.split(' ') for s3 in s2.split('\n') for s4 in s3.split(',') for s5 in s4.split('\t') if s5!='']: 
+            if(s==0):
+                try:
+                    cur=int(s)
+                except:
+                    print('word ',s,' ignored',sep='')
+            else:
+                try:
+                    integer=int(s)
+                except:
+                    print('word ',s,' ignored',sep='')
+                if (integer == cur):
                     if(f==0):
-                        temp_max = temp_max+2
+                        m = m+2
                         f=1
+                        cur = integer
                     elif  (f == 1):
-                        temp_max += 1
-                if ((int(integer) != int(prev_integer)) or ((int(integer) == int(prev_integer)) and i == length - 1)):
-                    f=0        
-                prev_integer = integer
-                integer = ''
-    return temp_max
-
+                        m += 1
+                        cur = integer
+                if (int(s) != cur):
+                    f=0
+                    cur = int(s)
+        file.close()
+        return m
+    except FileNotError:
+        return None
 
 total_number = Sequence(name_of_file)
 
 if (total_number == 0):
-    print("total number is 0")
+    print("answer 0")
 elif (total_number > 0):
-    print("total number is", total_number)
-elif (total_number == -1):
-    print("File is empty")
+    print("answer is", total_number)
+elif (total_number == None):
+    print("Can't open file")
